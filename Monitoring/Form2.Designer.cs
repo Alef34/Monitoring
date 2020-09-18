@@ -1,6 +1,6 @@
 ﻿namespace Monitoring
 {
-    partial class Form3
+    partial class Form2
     {
         /// <summary>
         /// Required designer variable.
@@ -28,23 +28,12 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.SuspendLayout();
-            // 
-            // Form3
-            // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.components = new System.ComponentModel.Container();
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackgroundImage = global::Monitoring.Properties.Resources.Linky;
             this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Name = "Form3";
-            this.Text = "Form3";
-            this.Load += new System.EventHandler(this.Form3_Load);
-            this.Paint += new System.Windows.Forms.PaintEventHandler(this.Form3_Paint);
-            this.MouseClick += new System.Windows.Forms.MouseEventHandler(this.Form3_MouseClick);
-            this.ResumeLayout(false);
-
+            this.Text = "Form2";
         }
 
-    #endregion
-  }
+        #endregion
+    }
 }

@@ -166,5 +166,20 @@ namespace Monitoring
         //((stanica)(Controls[staniceL1[i]])).PgbSSDFree = ssdFree[i];
       }
     }
-  }
+
+        private void toolStripButton1_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void toolStripButton3_Click(object sender, EventArgs e)
+        {
+            Form3 frma = new Form3();
+            frma.Width = 1040;
+            frma.Height = 800;
+            frma.StartPosition = FormStartPosition.CenterScreen;
+            frma.ShowDialog();
+            frma.Dispose();
+        }
+    }
 }
