@@ -11,98 +11,139 @@ using System.IO;
 
 namespace Monitoring
 {
-  public partial class stanica : UserControl
-  {
-    public string HostName { get; set; }
-    public string Linka { get; set; }
-    public int SSD { get; set; }
-    public int RAM { get; set; }
-    public int CPU { get; set; }
-
-    //public int PgbSSDFree
-    //{
-    //  get { return pgbSSDFree; }
-    //  set { pgbSSDFree = value;
-    //    pgbSSD.Value = value;
-    //  }
-    //}
-
-
-    //public stanica(string hostName)
-    public stanica(string hostName, string linka, int ssd, int cpu, int ram)
-    {
-      InitializeComponent();// generovane systemom
-      //pgbCPU.SetState(2);
-      HostName = hostName;
-      CPU = cpu;
-      SSD = ssd;
-      RAM = ram;
-      Linka = linka;
-      //Name = hostName;
-      //    pgbSSD.Maximum = 130;
-      //    this.label1.Text = HostName;
-
-      toolTip1.SetToolTip(pgbCPU, "Stanica :" + HostName + "\n" + "Linka :" + Linka + "\n" + "Ram :" + RAM + "\n" + "CPU :" + CPU + "\n" + "SSD :" + SSD);
-    }
-
-    private void toolTip1_Popup(object sender, PopupEventArgs e)
+    public partial class stanica : UserControl
     {
 
-    }
-    private Point Poloha { get; set; }
-    private void pgbCPU_MouseClick(object sender, MouseEventArgs e)
-    {
-      if (e.Button == MouseButtons.Right)
-      {
-        Poloha = e.Location;
-        Poloha = new Point(Poloha.X / 10 * 10, Poloha.Y / 10 * 10);
+        float ramSize = 8;
+        float ssdSize = 128;
 
-        stanica st = (stanica)(((ProgressBar)sender).Parent);
+        public bool IsRemovable;
+        public string HostName { get; set; }
+        public string Linka { get; set; }
 
-        stanica ff = (stanica)(((ProgressBar)sender).Parent);
-        Form3 fff = (Form3)(ff.Parent);
 
-        
+        private float cpu;
+        private float ram;
+        private float ssd;
 
-        for (int i = 0; i < fff.Controls.Count; i++)
+        public float SSD
         {
-          if (fff.Controls[i] is stanica)
-            if (st.HostName == ((stanica)(fff.Controls[i])).HostName)
+            get { return ssd; }
+            set
             {
-              if (MessageBox.Show("Naozaj vymatať?", "Pozor", MessageBoxButtons.YesNo) == DialogResult.Yes) 
-              {
-                fff.Controls.Remove(fff.Controls[i]);
-                File.WriteAllLines(Path.Combine(Directory.GetCurrentDirectory(), "Ulozene", "suradnice.txt"),
-                  File.ReadLines(Path.Combine(Directory.GetCurrentDirectory(), "Ulozene", "suradnice.txt")).
-                  Where(l => l != (st.Linka+"->"+st.HostName+"-->"+st.Location.ToString())).ToList());
-              }
+                ssd = value;
+                NastavToolTip();
+                int percento = (int)Math.Round((ssdSize - value) / ssdSize * 100, 0);
+                pgbCPU.Value = percento;
+                if (percento > 0 && percento <= 60)
+                    pgbCPU.SetState(1); // green - normal status
+                else if (percento > 60 && percento <= 80)
+                    pgbCPU.SetState(3); // yelow - warning status
+                else
+                    pgbCPU.SetState(2); // red - error
+            }
+        }
+
+
+        public float RAM
+        {
+            get { return ram; }
+            set
+            {
+                ram = value;
+                int percento = (int)Math.Round((ramSize - value) / ramSize * 100, 0);
+                pgbCPU.Value = percento;
+                NastavToolTip();
+                if (percento > 0 && percento <= 20)
+                    pgbCPU.SetState(0);
+                else if (percento > 20 && percento <= 60)
+                    pgbCPU.SetState(1);
+                else
+                    pgbCPU.SetState(2);
+            }
+        }
+
+
+        public float CPU
+        {
+            get { return cpu; }
+            set
+            {
+                cpu = value;
+                pgbCPU.Value = (int)(Math.Round(value, 0));
 
             }
         }
 
-      }
+        public string SledovanaVlastnost;
+
+
+
+        public stanica(string hostName, string linka, int ssd, int cpu, int ram, bool isRemovable = true)
+        {
+            InitializeComponent();
+            IsRemovable = isRemovable;
+            SledovanaVlastnost = "SSDA";
+            HostName = hostName;
+
+            if (SledovanaVlastnost == "CPU") CPU = cpu;
+            if (SledovanaVlastnost == "SSD") SSD = ssd;
+            if (SledovanaVlastnost == "RAM") RAM = ram;
+            Linka = linka;
+            //Name = hostName;
+            //    pgbSSD.Maximum = 130;
+            //    this.label1.Text = HostName;
+
+            NastavToolTip();
+        }
+
+        private void NastavToolTip()
+        {
+            toolTip1.SetToolTip(pgbCPU, "Stanica :" + HostName + "\n" + "Linka :" + Linka + "\n" + "Ram (free):" + RAM + "\n" + "CPU :" + CPU + "\n" + "SSD (free):" + SSD );
+        }
+
+        private void toolTip1_Popup(object sender, PopupEventArgs e)
+        {
+
+        }
+        private Point Poloha { get; set; }
+        private void pgbCPU_MouseClick(object sender, MouseEventArgs e)
+        {
+            if (IsRemovable)
+                if (e.Button == MouseButtons.Right)
+                {
+                    Poloha = e.Location;
+                    Poloha = new Point(Poloha.X / 10 * 10, Poloha.Y / 10 * 10);
+
+                    stanica st = (stanica)(((ProgressBar)sender).Parent);
+
+                    stanica ff = (stanica)(((ProgressBar)sender).Parent);
+                    Editor fff = (Editor)(ff.Parent);
+
+
+
+                    for (int i = 0; i < fff.Controls.Count; i++)
+                    {
+                        if (fff.Controls[i] is stanica)
+                            if (st.HostName == ((stanica)(fff.Controls[i])).HostName)
+                            {
+                                if (MessageBox.Show("Naozaj vymatať?", "Pozor", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                                {
+                                    fff.Controls.Remove(fff.Controls[i]);
+                                    File.WriteAllLines(Path.Combine(Directory.GetCurrentDirectory(), "Ulozene", "suradnice.txt"),
+                                      File.ReadLines(Path.Combine(Directory.GetCurrentDirectory(), "Ulozene", "suradnice.txt")).
+                                      Where(l => l != (st.Linka + "->" + st.HostName + "-->" + st.Location.ToString())).ToList());
+                                }
+
+                            }
+                    }
+
+                }
+        }
+
+        private void pgbCPU_Click(object sender, EventArgs e)
+        {
+
+        }
     }
-    //private void stanica1_DragDrop(object sender, DragEventArgs e)
-    //{
-    //    ((stanica)e.Data.GetData(typeof(stanica))).Parent = (stanica)sender;
-    //}
-
-    //private void stanica1_DragEnter(object sender, DragEventArgs e)
-    //{
-
-    //    //if (e.Data.GetDataPresent(DataFormats.FileDrop))
-    //        e.Effect = DragDropEffects.Move;
-    //    //else
-    //    //{
-    //    //    String[] strGetFormats = e.Data.GetFormats();
-    //    //    e.Effect = DragDropEffects.None;
-    //    //}
-
-    //}
-
-    //private void stanica1_MouseDown(object sender, MouseEventArgs e)
-    //{
-    //    this.DoDragDrop(this, DragDropEffects.Move);
-    //}
-  }
 }

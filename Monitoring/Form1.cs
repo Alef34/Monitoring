@@ -48,11 +48,30 @@ namespace Monitoring
 
     private void Form1_Load(object sender, EventArgs e)
     {
+            Aplikacia.VelkostStanice = 20;
+            stanica st = new stanica("A", "A", 20, 0, 5);
+            st.Location = new Point(100, 100);
+            Controls.Add(st);
 
-      //NacitajHodnoty();
-      //DoplnStanice();
-      //UpravHodnoty();
-    }
+           
+
+            stanica st1 = new stanica("B", "A", 50, 0, 5);
+            st1.Location = new Point(200, 100);
+            Controls.Add(st1);
+
+            stanica st2 = new stanica("C", "A", 100, 0, 5);
+            st2.Location = new Point(300, 100);
+            Controls.Add(st2);
+
+
+
+
+
+
+            //NacitajHodnoty();
+            //DoplnStanice();
+            //UpravHodnoty();
+        }
 
     private void NacitajHodnoty()
     {
@@ -172,14 +191,25 @@ namespace Monitoring
             this.Close();
         }
 
+        private void toolStripButton2_Click(object sender, EventArgs e)
+        {
+            Monitor mon = new Monitor();
+            mon.StartPosition = FormStartPosition.CenterScreen;
+            mon.WindowState = FormWindowState.Maximized;
+            mon.ShowDialog();
+            mon.Dispose();
+        }
+
         private void toolStripButton3_Click(object sender, EventArgs e)
         {
-            Form3 frma = new Form3();
+            Editor frma = new Editor();
             frma.Width = 1040;
             frma.Height = 800;
             frma.StartPosition = FormStartPosition.CenterScreen;
             frma.ShowDialog();
             frma.Dispose();
         }
+
+        
     }
 }

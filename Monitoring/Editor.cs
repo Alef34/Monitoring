@@ -14,15 +14,15 @@ namespace Monitoring
 {
 
 
-    public partial class Form3 : Form
+    public partial class Editor : Form
     {
 
         private Point Poloha { get; set; }
-        private int velkostStanice = 25;
+       // private int velkostStanice = 35;
 
         List<string> lines = new List<string>();
 
-        public Form3()
+        public Editor()
         {
             InitializeComponent();
 
@@ -80,6 +80,7 @@ namespace Monitoring
             //ControlExtension.Draggable(frm, true);
             frm.Polozky = lines;
             frm.Location = poloha;
+            frm.StartPosition = FormStartPosition.CenterScreen;
             frm.ShowDialog();
             if (frm.HostName != "")
             {
@@ -87,7 +88,7 @@ namespace Monitoring
                 string linka = frm.HostName.Substring(0, frm.HostName.IndexOf("->"));
                 stanica sta = new stanica(meno, linka, 10, 0, 0);
                 sta.Location = poloha;
-                sta.Size = new Size(velkostStanice, velkostStanice);
+                sta.Size = new Size(Aplikacia.VelkostStanice, Aplikacia.VelkostStanice);
                 this.Controls.Add(sta);
 
                 using (System.IO.StreamWriter file =
@@ -157,10 +158,10 @@ namespace Monitoring
                         Point umiestnenie = UlozeneSuradnice[linka.Substring(0, linka.Length - 4) + "->" + stanica];
                         Form4 frm = new Form4(umiestnenie);
                         //ControlExtension.Draggable(frm, true);
-
+                        
                         stanica sta = new stanica(stanica, linka.Substring(0, linka.Length - 4), 0, 0, 0);
                         sta.Location = umiestnenie;
-                        sta.Size = new Size(velkostStanice, velkostStanice);
+                        sta.Size = new Size(Aplikacia.VelkostStanice, Aplikacia.VelkostStanice);
                         this.Controls.Add(sta);
 
 
