@@ -49,28 +49,21 @@ namespace Monitoring
     private void Form1_Load(object sender, EventArgs e)
     {
             Aplikacia.VelkostStanice = 20;
-            stanica st = new stanica("A", "A", 20, 0, 5);
-            st.Location = new Point(100, 100);
-            Controls.Add(st);
+            //stanica st = new stanica("A", "A", 20, 0, 5);
+            //st.Location = new Point(100, 100);
+            //Controls.Add(st);
 
-           
+            //stanica st1 = new stanica("B", "A", 50, 0, 5);
+            //st1.Location = new Point(200, 100);
+            //Controls.Add(st1);
 
-            stanica st1 = new stanica("B", "A", 50, 0, 5);
-            st1.Location = new Point(200, 100);
-            Controls.Add(st1);
+            //stanica st2 = new stanica("C", "A", 100, 0, 5);
+            //st2.Location = new Point(300, 100);
+            //Controls.Add(st2);
 
-            stanica st2 = new stanica("C", "A", 100, 0, 5);
-            st2.Location = new Point(300, 100);
-            Controls.Add(st2);
-
-
-
-
-
-
-            //NacitajHodnoty();
-            //DoplnStanice();
-            //UpravHodnoty();
+            ////NacitajHodnoty();
+            ////DoplnStanice();
+            ////UpravHodnoty();
         }
 
     private void NacitajHodnoty()

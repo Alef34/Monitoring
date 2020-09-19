@@ -137,5 +137,23 @@
   <ItemGroup>
     <None Include="Resources\Linky2.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Linky3.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Linky31.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Linky32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Linky33.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Linky34.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Linky35.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
