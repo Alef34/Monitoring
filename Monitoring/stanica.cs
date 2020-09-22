@@ -14,8 +14,7 @@ namespace Monitoring
     public partial class stanica : UserControl
     {
 
-        float ramSize = 8;
-        float ssdSize = 128;
+        
 
         public bool IsRemovable;
         public string HostName { get; set; }
@@ -33,7 +32,7 @@ namespace Monitoring
             {
                 ssd = value;
                 NastavToolTip();
-                int percento = (int)Math.Round((ssdSize - value) / ssdSize * 100, 0);
+                int percento = (int)Math.Round((Aplikacia.ssdSize - value) / Aplikacia.ssdSize * 100, 0);
                 pgbCPU.Value = percento;
                 if (percento > 0 && percento <= 60)
                     pgbCPU.SetState(1); // green - normal status
@@ -51,7 +50,7 @@ namespace Monitoring
             set
             {
                 ram = value;
-                int percento = (int)Math.Round((ramSize - value) / ramSize * 100, 0);
+                int percento = (int)Math.Round((Aplikacia.ramSize - value) / Aplikacia.ramSize * 100, 0);
                 pgbCPU.Value = percento;
                 NastavToolTip();
                 if (percento > 0 && percento <= 20)
